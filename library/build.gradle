@@ -94,12 +94,9 @@ install {
     }
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 bintray {
-    user = properties.getProperty('bintray.user')
-    key = properties.getProperty('bintray.apikey')
+    user = bintrayUser
+    key = bintrayApikey
 
     configurations = ['archives'] //When uploading configuration files
 
@@ -119,7 +116,7 @@ bintray {
             vcsTag = libraryVersion
             gpg {
                 sign = true //Determines whether to GPG sign the files. The default is false
-                passphrase = properties.getProperty('gpg.passphrase') //Optional. The passphrase for GPG signing'
+                passphrase = gpgPassphrase //Optional. The passphrase for GPG signing'
             }
 /*            mavenCentralSync {
                 sync = true
