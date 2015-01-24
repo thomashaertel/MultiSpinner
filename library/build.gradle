@@ -1,18 +1,28 @@
 apply plugin: 'com.android.library'
-apply from: '../maven_push.gradle'
-apply from: '../gradle.properties'
+apply plugin: 'android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/thomashaertel/MultiSpinner'      // Homepage URL of the library
+def gitUrl = 'https://github.com/thomashaertel/MultiSpinner.git'   // Git repository URL
+def scmUrl = 'scm:git@github.com:thomashaertel/MultiSpinner.git'   // SCM repository URL
+def issueUrl = 'https://github.com/thomashaertel/MultiSpinner/issues' // Issue Tracker URL
+def libraryVersion = '0.1.0'
+
+// set project version and group
+version = libraryVersion
+group = "com.thomashaertel"
 
 android {
-    compileSdkVersion global_compileSdkVersion
-    buildToolsVersion global_buildToolsVersion
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
-        minSdkVersion global_minSdkVersion
-        targetSdkVersion global_targetSdkVersion
+        minSdkVersion 9
+        targetSdkVersion 21
         versionCode 1
-        versionName "0.1.0"
+        versionName libraryVersion
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false
@@ -25,6 +35,100 @@ android {
     }
 }
 
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                artifactId 'multispinner'
+                name 'MultiSpinner'
+                packaging 'aar'
+                description 'Spinner widget with multi selectable list'
+                url siteUrl
+
+                scm {
+                    url siteUrl
+                    connection scmUrl
+                    developerConnection scmUrl
+                }
+
+                licenses {
+                    license {
+                        name 'The MIT License'
+                        url 'http://opensource.org/licenses/mit-license.php'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'thomashaertel'
+                        name 'Thomas Haertel'
+                        email 'mailhomashaertel.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty('bintray.user')
+    key = properties.getProperty('bintray.apikey')
+
+    configurations = ['archives'] //When uploading configuration files
+
+    pkg {
+        repo = 'maven'
+        name = 'MultiSpinner'
+        desc = 'Spinner widget with multi selectable list'
+        websiteUrl = siteUrl
+        issueTrackerUrl = issueUrl
+        vcsUrl = gitUrl
+        licenses = ['MIT']
+        labels = ['spinner', 'widget', 'android']
+        publicDownloadNumbers = true
+
+        version {
+            name = libraryVersion
+            vcsTag = libraryVersion
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty('gpg.passphrase') //Optional. The passphrase for GPG signing'
+            }
+/*            mavenCentralSync {
+                sync = true
+                //Optional (true by default). Determines whether to sync the version to Maven Central.
+                user = properties.getProperty('sonatypeUser') //OSS user token
+                password = properties.getProperty('sonatypePass') //OSS user password
+                close = '1'
+                //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+            }*/
+        }
+    }
 }
