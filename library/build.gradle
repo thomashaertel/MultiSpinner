@@ -1,15 +1,17 @@
 apply plugin: 'com.android.library'
-
+apply from: '../maven_push.gradle'
+apply from: '../gradle.properties'
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion global_compileSdkVersion
+    buildToolsVersion global_buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 21
+        minSdkVersion global_minSdkVersion
+        targetSdkVersion global_targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
     }
+    
     buildTypes {
         release {
             minifyEnabled false
@@ -25,5 +27,3 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
-
-apply from: '../maven_push.gradle'

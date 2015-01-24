@@ -18,12 +18,10 @@ def isReleaseBuild() {
 }
 
 allprojects {
-    version = VERSION_NAME
-    group = GROUP
-    
     repositories {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven { url 'https://raw.githubusercontent.com/Captainjack79/Captainjack79-mvn-repo/master/' }
         jcenter()
     }
+    
 }
