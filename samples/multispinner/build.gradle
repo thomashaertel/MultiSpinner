@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
+apply from: '../../gradle.properties'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion global_compileSdkVersion
+    buildToolsVersion global_buildToolsVersion
 
     defaultConfig {
         applicationId "com.thomashaertel.samples.multispinner"
-        minSdkVersion 9
-        targetSdkVersion 21
+        minSdkVersion global_minSdkVersion
+        targetSdkVersion global_targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
     }
     buildTypes {
         release {
