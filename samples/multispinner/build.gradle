@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
-//apply from: '../../gradle.properties'
+apply from: '../../gradle.properties'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion global_compileSdkVersion
     buildToolsVersion global_buildToolsVersion
 
     defaultConfig {

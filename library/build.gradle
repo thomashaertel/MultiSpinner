@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply from: '../gradle.properties'
 
 def siteUrl = 'https://github.com/thomashaertel/MultiSpinner'      // Homepage URL of the library
 def gitUrl = 'https://github.com/thomashaertel/MultiSpinner.git'   // Git repository URL
@@ -12,13 +13,14 @@ def libraryVersion = '0.1.0'
 version = libraryVersion
 group = "com.thomashaertel"
 
+
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion global_compileSdkVersion
+    buildToolsVersion global_buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 21
+        minSdkVersion global_minSdkVersion
+        targetSdkVersion global_targetSdkVersion
         versionCode 1
         versionName libraryVersion
     }
@@ -123,7 +125,7 @@ bintray {
                 sync = true
                 //Optional (true by default). Determines whether to sync the version to Maven Central.
                 user = project.hasProperty('sonatypeUser') ? project.property('sonatypeUser') : System.getenv('sonatypeUser') //OSS user token
-                password = project.hasProperty('sonatypePass') ? project.property('sonatypePass') : System.getenv('sonatypePass') //OSS user password
+                password = project.hasProperty('sonatypeUser') ? project.property('sonatypeUser') : System.getenv('sonatypeUser') //OSS user password
                 close = '1'
                 //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
             }*/
