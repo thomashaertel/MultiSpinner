@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -35,43 +36,44 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
         mSelected[which] = isChecked;
     }
 
-    @Override
-    public boolean performClick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+    private OnClickListener onClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        String choices[] = new String[mAdapter.getCount()];
+            String choices[] = new String[mAdapter.getCount()];
 
-        for (int i = 0; i < choices.length; i++) {
-            choices[i] = mAdapter.getItem(i).toString();
-        }
+            for (int i = 0; i < choices.length; i++) {
+                choices[i] = mAdapter.getItem(i).toString();
+            }
 
-        for (int i = 0; i < mSelected.length; i++) {
-            mOldSelection[i] = mSelected[i];
-        }
+            for (int i = 0; i < mSelected.length; i++) {
+                mOldSelection[i] = mSelected[i];
+            }
 
-        builder.setMultiChoiceItems(choices, mSelected, this);
+            builder.setMultiChoiceItems(choices, mSelected, MultiSpinner.this);
 
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                for (int i = 0; i < mSelected.length; i++) {
-                    mSelected[i] = mOldSelection[i];
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    for (int i = 0; i < mSelected.length; i++) {
+                        mSelected[i] = mOldSelection[i];
+                    }
+
+                    dialog.dismiss();
                 }
+            });
 
-                dialog.dismiss();
-            }
-        });
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    refreshSpinner();
+                    mListener.onItemsSelected(mSelected);
+                    dialog.dismiss();
+                }
+            });
 
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                refreshSpinner();
-                mListener.onItemsSelected(mSelected);
-                dialog.dismiss();
-            }
-        });
-
-        builder.show();
-        return true;
-    }
+            builder.show();
+        }
+    };
 
     public SpinnerAdapter getAdapter() {
         return this.mAdapter;
@@ -94,6 +96,8 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
     public void setAdapter(SpinnerAdapter adapter, boolean allSelected, MultiSpinnerListener listener) {
         SpinnerAdapter oldAdapter = this.mAdapter;
 
+        setOnClickListener(null);
+        
         this.mAdapter = adapter;
         this.mListener = listener;
         this.mAllSelected = allSelected;
@@ -112,6 +116,8 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
                 mOldSelection[i] = false;
                 mSelected[i] = allSelected;
             }
+            
+            setOnClickListener(onClickListener);
         }
 
         // all text on the spinner
