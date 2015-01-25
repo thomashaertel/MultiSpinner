@@ -8,12 +8,12 @@ Android Spinner Widget with multi selectable list
 MultiSpinner is a class with can be used by Android developers that need a spinner widget with multi selection capabilities.
 When the user touches on the spinner widget a dialog pops up with a checkbox list. 
 
-<img src="https://cloud.githubusercontent.com/assets/1078036/5889593/3e7044de-a430-11e4-91ae-2931dfa6fd22.png" alt="Spinner with single selection" width="50%" height="50%">
-<img src="https://cloud.githubusercontent.com/assets/1078036/5889594/4083da9c-a430-11e4-988e-ff7dd114084b.png" alt="Spinner item selection dialog" width="50%" height="50%">
-<img src="https://cloud.githubusercontent.com/assets/1078036/5889595/41dc0612-a430-11e4-83c4-fe24ff353d24.png" alt="Spinner with multiple selection" width="50%" height="50%">
+<img src="https://cloud.githubusercontent.com/assets/1078036/5889593/3e7044de-a430-11e4-91ae-2931dfa6fd22.png" alt="Spinner with single selection" width="25%" height="25%">
+<img src="https://cloud.githubusercontent.com/assets/1078036/5889594/4083da9c-a430-11e4-988e-ff7dd114084b.png" alt="Spinner item selection dialog" width="25%" height="25%">
+<img src="https://cloud.githubusercontent.com/assets/1078036/5889595/41dc0612-a430-11e4-83c4-fe24ff353d24.png" alt="Spinner with multiple selection" width="25%" height="25%">
 
 ## Usage
-Integrating the widget is quite simple. In your layout.xml add the following snippet:
+Integrating the widget is quite simple. In your `layout.xml` add the following snippet:
 ```xml
 ...
 <com.thomashaertel.widget.MultiSpinner
@@ -58,7 +58,7 @@ After inserting the widget in your layout add the following code to your activit
             }
         };
     }
-```java
+```
 
 ## Building
 ### Gradle
@@ -118,3 +118,7 @@ or
   <classifier>javadoc</classifier>
 ```
 to the dependency.
+
+## License
+
+* [MIT](http://opensource.org/licenses/MIT)
