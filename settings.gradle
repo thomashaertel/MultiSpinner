@@ -1,5 +1,5 @@
-include ':MultiSpinner Library'
-include ':MultiSpinner Sample'
+include ':multispinner'
+include ':multispinner-sample'
 
-project(':MultiSpinner Library').projectDir = file('library')
-project(':MultiSpinner Sample').projectDir = file('samples/multispinner')
+project(':multispinner').projectDir = file('library')
+project(':multispinner-sample').projectDir = file('samples/multispinner')

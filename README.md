@@ -63,6 +63,22 @@ After inserting the widget in your layout add the following code to your activit
 ## Building
 ### Gradle
 
+#### From Bintray
+
+Add maven central to your `build.gradle`:
+
+```groovy
+buildscript {
+  repositories {
+    jcenter()
+  }
+}
+
+repositories {
+  jcenter()
+}
+```
+
 #### From maven central
 
 Add maven central to your `build.gradle`:
@@ -79,7 +95,7 @@ repositories {
 }
 ```
 
-Then declare Crouton within your dependencies:
+Then declare MultiSpinner within your dependencies:
 
 ```groovy
 dependencies {
@@ -94,7 +110,7 @@ dependencies {
 
 #### From maven central
 
-To use crouton within your maven build simply add
+To use MultiSpinner within your maven build simply add
 
 ```xml
 <dependency>

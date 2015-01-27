@@ -12,8 +12,7 @@ def libraryVersion = '0.1.1'
 
 // set project version and group
 version = libraryVersion
-group = "com.thomashaertel"
-
+group = 'com.thomashaertel'
 
 android {
     compileSdkVersion global_compileSdkVersion
