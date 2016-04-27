@@ -7,8 +7,8 @@ def siteUrl = 'https://github.com/thomashaertel/MultiSpinner'      // Homepage U
 def gitUrl = 'https://github.com/thomashaertel/MultiSpinner.git'   // Git repository URL
 def scmUrl = 'scm:git@github.com:thomashaertel/MultiSpinner.git'   // SCM repository URL
 def issueUrl = 'https://github.com/thomashaertel/MultiSpinner/issues' // Issue Tracker URL
-def libraryVersionCode = 2
-def libraryVersion = '0.1.1'
+def libraryVersionCode = 3
+def libraryVersion = '0.1.2'
 
 // set project version and group
 version = libraryVersion
