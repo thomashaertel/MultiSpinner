@@ -34,8 +34,9 @@ import android.view.View;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-public class MultiSpinner extends TextView implements OnMultiChoiceClickListener {
+public class MultiSpinner extends TextView implements OnMultiChoiceClickListener, DialogInterface.OnClickListener {
 
+    private boolean mSingleChoice = false;      // default to multi-choice... since this is a MultiSpinner
     private SpinnerAdapter mAdapter;
     private boolean[] mOldSelection;
     private boolean[] mSelected;
@@ -71,11 +72,20 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
                 choices[i] = mAdapter.getItem(i).toString();
             }
 
+            int singleSelectItem = -1;
             for (int i = 0; i < mSelected.length; i++) {
                 mOldSelection[i] = mSelected[i];
+                // calculate our 'single selected item' as well
+                // NOTE: If there are more than 1 selected, last will be chosen
+                singleSelectItem = (mSelected[i]) ? i : singleSelectItem;
             }
 
-            builder.setMultiChoiceItems(choices, mSelected, MultiSpinner.this);
+            if (mSingleChoice) {
+                builder.setSingleChoiceItems(choices, singleSelectItem, MultiSpinner.this);
+            }
+            else {
+                builder.setMultiChoiceItems(choices, mSelected, MultiSpinner.this);
+            }
 
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
@@ -152,6 +162,13 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
         this.mListener = listener;
     }
 
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+        // handling the single selection click case
+        mSelected = new boolean[mSelected.length];
+        mSelected[i] = true;
+    }
+
     public interface MultiSpinnerListener {
         public void onItemsSelected(boolean[] selected);
     }
@@ -217,4 +234,7 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
     public void setAllText(String allText) {
         this.mAllText = allText;
     }
+
+    // method to adjust the widget to only support Single choices (instead of multi choice)
+    public void setSingleChoice(boolean singleChoice) { this.mSingleChoice = singleChoice; }
 }
