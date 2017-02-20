@@ -36,12 +36,18 @@ import android.widget.TextView;
 
 public class MultiSpinner extends TextView implements OnMultiChoiceClickListener {
 
+    public enum AllSelectedDisplayMode {
+        UseAllText,
+        DisplayAllItems
+    }
+
     private SpinnerAdapter mAdapter;
     private boolean[] mOldSelection;
     private boolean[] mSelected;
     private String mDefaultText;
     private String mAllText;
     private boolean mAllSelected;
+    private AllSelectedDisplayMode mAllSelectedDisplayMode;
     private MultiSpinnerListener mListener;
 
     public MultiSpinner(Context context) {
@@ -188,7 +194,7 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
         String spinnerText;
 
         if (!allUnselected) {
-            if (someUnselected && !(mAllText != null && mAllText.length() > 0)) {
+            if ((someUnselected && !(mAllText != null && mAllText.length() > 0)) || mAllSelectedDisplayMode == AllSelectedDisplayMode.DisplayAllItems) {
                 spinnerText = spinnerBuffer.toString();
                 if (spinnerText.length() > 2)
                     spinnerText = spinnerText.substring(0, spinnerText.length() - 2);
@@ -216,5 +222,13 @@ public class MultiSpinner extends TextView implements OnMultiChoiceClickListener
 
     public void setAllText(String allText) {
         this.mAllText = allText;
+    }
+
+    public AllSelectedDisplayMode getAllSelectedDisplayMode() {
+        return mAllSelectedDisplayMode;
+    }
+
+    public void setAllSelectedDisplayMode(AllSelectedDisplayMode allSelectedDisplayMode) {
+        this.mAllSelectedDisplayMode = allSelectedDisplayMode;
     }
 }
